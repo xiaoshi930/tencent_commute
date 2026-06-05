@@ -126,38 +126,38 @@ class TencentCommuteSensor(CoordinatorEntity, SensorEntity):
         
         # 格式化显示
         if driving_duration_minutes <= 0:
-            driving_duration_display = "未知"
+            driving_duration_display = "0"
         elif driving_duration_minutes > 120:  # 大于2小时
             driving_duration_display = f"{driving_duration_minutes / 60:.2f}小时"
         else:
             driving_duration_display = f"{int(driving_duration_minutes)}分钟"
             
         if transit_duration_minutes <= 0:
-            transit_duration_display = "未知"
+            transit_duration_display = "0"
         elif transit_duration_minutes > 120:  # 大于2小时
             transit_duration_display = f"{transit_duration_minutes / 60:.2f}小时"
         else:
             transit_duration_display = f"{int(transit_duration_minutes)}分钟"
             
         if bicycling_duration_minutes <= 0:
-            bicycling_duration_display = "未知"
+            bicycling_duration_display = "0"
         elif bicycling_duration_minutes > 120:  # 大于2小时
             bicycling_duration_display = f"{bicycling_duration_minutes / 60:.2f}小时"
         else:
             bicycling_duration_display = f"{int(bicycling_duration_minutes)}分钟"
             
         if walking_duration_minutes <= 0:
-            walking_duration_display = "未知"
+            walking_duration_display = "0"
         elif walking_duration_minutes > 120:  # 大于2小时
             walking_duration_display = f"{walking_duration_minutes / 60:.2f}小时"
         else:
             walking_duration_display = f"{int(walking_duration_minutes)}分钟"
         
         # 处理无效距离
-        driving_distance_display = "未知" if driving_distance_meters <= 0 else f"{driving_distance_km:.1f}公里"
-        transit_distance_display = "未知" if transit_distance_meters <= 0 else f"{transit_distance_km:.1f}公里"
-        bicycling_distance_display = "未知" if bicycling_distance_meters <= 0 else f"{bicycling_distance_km:.1f}公里"
-        walking_distance_display = "未知" if walking_distance_meters <= 0 else f"{walking_distance_km:.1f}公里"
+        driving_distance_display = "0" if driving_distance_meters <= 0 else f"{driving_distance_km:.1f}公里"
+        transit_distance_display = "0" if transit_distance_meters <= 0 else f"{transit_distance_km:.1f}公里"
+        bicycling_distance_display = "0" if bicycling_distance_meters <= 0 else f"{bicycling_distance_km:.1f}公里"
+        walking_distance_display = "0" if walking_distance_meters <= 0 else f"{walking_distance_km:.1f}公里"
         
         return {
             ATTR_DRIVING_DURATION: driving_duration_display,
