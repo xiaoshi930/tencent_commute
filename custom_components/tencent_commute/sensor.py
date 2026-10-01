@@ -1,5 +1,6 @@
 """Sensor platform for Tencent Commute Tracker integration."""
 from datetime import datetime
+import importlib
 import logging
 
 from homeassistant.components.sensor import SensorEntity
@@ -35,7 +36,11 @@ async def async_setup_entry(
     if not coordinator.data:
         _LOGGER.error("无法初始化传感器：协调器数据为空")
         return
-        
+
+    # pypinyin 首次导入时会读取 pinyin_dict.json（阻塞 IO），
+    # 必须在 executor 线程中完成预热，否则会阻塞 HA 事件循环
+    await hass.async_add_executor_job(importlib.import_module, "pypinyin")
+
     async_add_entities([TencentCommuteSensor(coordinator, entry)])
 
 
@@ -52,6 +57,8 @@ class TencentCommuteSensor(CoordinatorEntity, SensorEntity):
         self._attr_name = f"{custom_name}通勤"
         
         # 使用拼音作为实体ID
+        # 注意：pypinyin 已在 async_setup_entry 中于 executor 线程预热，
+        # 此处命中 sys.modules，不会产生磁盘 IO
         from pypinyin import lazy_pinyin
         pinyin = ''.join(lazy_pinyin(custom_name))
         self.entity_id = f"sensor.tencent_{pinyin}"
